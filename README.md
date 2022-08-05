@@ -28,7 +28,12 @@
 
 - With the command "serve", the project should start a dev-server
 - A top framework(vue/react/angular) should be included
+- A unit test framework should be included
 - The server serves a html page rendered by the framework, the page should display "Hello world"
 - The server should has the feature as "hot-reload"
 - Eslint should be included and should be well-configured as well
+- Able to switch and use different parameter settings by environment parameter(development/test/production)
+- A "build" command to build and generate artifacts for deployment
+- A "test" command to run unit tests of the project
+- A "lint" command to run a eslint check
 - Any other feature as you like
