@@ -7,11 +7,15 @@
   3. Test and publish.
   4. Retrospect.
 
-## Phase 1, Initiate a project
+## Links
+
+- Jira: <https://woodichin.atlassian.net/jira/software/projects/PFS/code>
+
+### Phase 1, Initiate a project
 
 - At this stage, we will create a project from blank
 
-### Goal: get familiar with the usage of such tools
+#### Goal: get familiar with the usage of such tools
 
 - git(github/gitlab)
 - npm
@@ -20,7 +24,7 @@
 - eslint
 - We will also involve some knowledge of the framework which we will use next.
 
-### Expected output: a npm project with such feature
+#### Expected output: a npm project with such feature
 
 - With the command "serve", the project should start a dev-server
 - A top framework(vue/react/angular) should be included
