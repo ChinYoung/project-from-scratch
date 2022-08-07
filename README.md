@@ -37,3 +37,5 @@
 - A "test" command to run unit tests of the project
 - A "lint" command to run a eslint check
 - Any other feature as you like
+
+- demo
