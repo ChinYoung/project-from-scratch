@@ -24,10 +24,10 @@ on:
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
 
+workflow_dispatch:
+
 permissions:
   contents: read
-on:
-workflow_dispatch:
 
 jobs:
   build:
