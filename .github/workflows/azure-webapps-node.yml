@@ -22,6 +22,7 @@ on:
     branches:
       - 'main'
   workflow_dispatch:
+    types: [on-demand-test]
     inputs:
       env:
         REF: 'dev'
@@ -53,11 +54,6 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-app
-          path: .
       - name: SFTP Deploy
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
