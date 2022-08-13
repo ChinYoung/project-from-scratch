@@ -20,15 +20,18 @@
 on:
   push:
     branches:
-      - 'main'
+      - main
   workflow_dispatch:
     types: [on-demand-test]
     inputs:
+      github:
+        action_ref:
+          default: main
       env:
-        REF: 'dev'
+        REF: dev
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
-  REF: 'main'
+  REF: main
 
 
 permissions:
