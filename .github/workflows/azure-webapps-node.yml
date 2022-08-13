@@ -17,16 +17,17 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
+env:
+  NODE_VERSION: '16.x'                # set this to the node version to use
+  REF: 'main'
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   workflow_dispatch:
     inputs:
-      github:
-        ref: 'dev'
-env:
-  NODE_VERSION: '16.x'                # set this to the node version to use
+      env:
+        REF: 'dev'
 
 
 permissions:
@@ -36,8 +37,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
+      - name: checkout
+        uses: actions/checkout@v3
+        - ${{ env.REF }}
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
