@@ -20,7 +20,7 @@
 on:
   push:
     branches:
-      - "dev"
+      - "main"
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
 
