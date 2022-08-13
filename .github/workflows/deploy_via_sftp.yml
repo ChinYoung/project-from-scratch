@@ -27,7 +27,7 @@ on:
         REF: 'dev'
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
-  REF: 'main'
+  REF: 'dev'
 
 
 permissions:
