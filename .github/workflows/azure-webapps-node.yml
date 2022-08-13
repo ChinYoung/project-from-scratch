@@ -20,12 +20,12 @@
 on:
   push:
     branches:
-      - main
+      - 'main'
   workflow_dispatch:
-    types: [on-demand-test]
     inputs:
-      to-run-branch:
-        default: main
+      to_run_branch:
+        default: 'main'
+        type: string
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
 
@@ -39,7 +39,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.to-run-branch }}
+          ref: ${{ inputs.to_run_branch }}
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
