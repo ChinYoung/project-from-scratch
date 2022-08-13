@@ -24,15 +24,10 @@ on:
   workflow_dispatch:
     types: [on-demand-test]
     inputs:
-      github:
-        action_ref:
-          default: main
-      env:
-        REF: dev
+      to-run-branch:
+        default: main
 env:
   NODE_VERSION: '16.x'                # set this to the node version to use
-  REF: main
-
 
 permissions:
   contents: read
@@ -44,7 +39,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ env.REF }}
+          ref: ${{ inputs.to-run-branch }}
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
