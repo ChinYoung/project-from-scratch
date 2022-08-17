@@ -19,6 +19,7 @@
 <script>
     import { ref } from 'vue'
     import { useRouter } from 'vue-router'
+    import axios from "axios";
     export default {
         props: {
 
@@ -30,6 +31,13 @@
                 password: ''
             })
             const login = () => {
+                axios.post('/localProxy/libra/account', {
+                    "account": "libra",
+                    "password": "xxxxx",
+                    "timestamp": 1660700351,
+                    "nonce": "5218",
+                    "sig": "3CfQGh3G++nf0HDQ85/AJw=="
+                })
                 if (loginForm.value.username === 'admin' && loginForm.value.password === '123456') {
                     //window.sessionStorage.setItem('token', )
                     router.push('/home')
