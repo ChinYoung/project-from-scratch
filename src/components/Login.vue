@@ -58,7 +58,7 @@
 
             const getSign = (plainObj) => {
                 const str = handleObj(plainObj) + 'Bearer'
-                return btoa(md5(str))
+                return encodeURIComponent(md5.base64(str))
             }
 
             const login = async () => {
