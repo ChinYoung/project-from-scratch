@@ -17,11 +17,11 @@
 </template>
 
 <script>
-    import { ref, getCurrentInstance } from 'vue'
+    import { ref, getCurrentInstance, provide } from 'vue'
     import { useRouter } from 'vue-router'
     import axios from 'axios'
     import { nanoid } from 'nanoid'
-    import md5 from 'js-md5'
+    import { getSign } from '../utils/getSign.js'
     export default {
         props: {
 
@@ -33,33 +33,9 @@
                 password: ''
             })
             const currentInstance = getCurrentInstance()
+            const eventBus = currentInstance.appContext.config.globalProperties.$eventBus
 
-            const handleObj = (obj) => {
-                const params = Object.entries(obj)
-                const str = params.filter(([key, value]) => value !== undefined && key !== 'sig')
-                    .map(([key, value]) => {
-                        if (typeof value === 'object')
-                            return `${key}=${handleObj(value)}`
-                        if (Array.isArray(value))
-                            return `${key}=${handleArray(value)}`
-                        return `${key}=${value}`
-                    }).join('&')
-                return `{${str}}`
-            }
-
-            const handleArray = (arr) => {
-                const str = arr.map((item) => {
-                    if (typeof item === 'object') return handleObj(item)
-                    if (Array.isArray(item)) return handleArray(item)
-                    return item
-                }).join(',')
-                return `[${str}]`
-            }
-
-            const getSign = (plainObj) => {
-                const str = handleObj(plainObj) + 'Bearer'
-                return md5.base64(str)
-            }
+            // provide('user', loginForm)
 
             const login = async () => {
                 const { username, password } = loginForm.value
@@ -67,24 +43,25 @@
                     const timestamp = Date.parse(new Date()).toString().slice(0, 10)
                     const nonce = nanoid().slice(0, 4)
                     const plainObj = {
-                        "account": username,   // 'libra'
-                        "password": password,  // 'xxxxx'
-                        "timestamp": timestamp, // 1660641536
-                        "nonce": nonce         // '9957'
+                        "account": username,
+                        "password": password,
+                        "timestamp": timestamp,
+                        "nonce": nonce
                     }
 
                     const sig = getSign(plainObj)
-                    console.log(sig)
 
                     const { data: res } = await axios.post('/api/libra/account', {
-                        "account": username,     // 'libra'
-                        "password": password,    // 'xxxxx'
-                        "timestamp": timestamp,  // 1660641536
-                        "nonce": nonce,          // '9957'
-                        "sig": sig               // "iQdevJKV7rSuM1ug97YWKw=="
+                        "account": username,
+                        "password": password,
+                        "timestamp": timestamp,
+                        "nonce": nonce,
+                        "sig": sig
                     })
                     window.sessionStorage.setItem('token', res.data.token)
                     router.push('/home')
+
+                    eventBus.emit('getUser', loginForm.value)
                 } else {
                     currentInstance.appContext.config.globalProperties.$message.error('请输入正确的用户名和密码！')
                 }
