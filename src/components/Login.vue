@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import { ref, getCurrentInstance, provide } from 'vue'
+    import { ref, getCurrentInstance } from 'vue'
     import { useRouter } from 'vue-router'
     import axios from 'axios'
     import { nanoid } from 'nanoid'
@@ -33,9 +33,6 @@
                 password: ''
             })
             const currentInstance = getCurrentInstance()
-            const eventBus = currentInstance.appContext.config.globalProperties.$eventBus
-
-            // provide('user', loginForm)
 
             const login = async () => {
                 const { username, password } = loginForm.value
@@ -60,8 +57,6 @@
                     })
                     window.sessionStorage.setItem('token', res.data.token)
                     router.push('/home')
-
-                    eventBus.emit('getUser', loginForm.value)
                 } else {
                     currentInstance.appContext.config.globalProperties.$message.error('请输入正确的用户名和密码！')
                 }
