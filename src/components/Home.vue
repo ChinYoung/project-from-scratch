@@ -1,9 +1,27 @@
 <template>
-    <p id="helloWorld">Hello World!</p>
+    <div id="table">
+        {{ 'users:'+ users }}
+        <el-table :data="users" stripe style="width: 100%">
+            <el-table-column prop="user_id" label="user_id">
+            </el-table-column>
+            <el-table-column prop="name" label="Name">
+            </el-table-column>
+            <el-table-column prop="age" label="Age">
+            </el-table-column>
+            <el-table-column prop="address" label="Address">
+            </el-table-column>
+            <el-table-column prop="gender" label="Gender">
+            </el-table-column>
+            <el-table-column prop="cellphone" label="Cellphone">
+            </el-table-column>
+            <el-table-column prop="createAt" label="CreateAt">
+            </el-table-column>
+        </el-table>
+    </div>
 </template>
 
 <script>
-    import { onBeforeMount } from 'vue'
+    import { onBeforeMount, ref, onMounted } from 'vue'
     import { getSign } from '../utils/getSign.js'
     import { nanoid } from 'nanoid'
     import axios from 'axios'
@@ -11,7 +29,9 @@
         setup() {
             const timestamp = Date.parse(new Date()).toString().slice(0, 10)
             const nonce = nanoid().slice(0, 4)
-            onBeforeMount(() => {
+            let users = ref([])
+            const getUsers = async () => {
+                const token = window.sessionStorage.getItem('token')
                 const plainObj = {
                     "pageSize": 10,
                     "pageNumber": 0,
@@ -19,16 +39,29 @@
                     "nonce": nonce
                 }
                 const sig = encodeURIComponent(getSign(plainObj))
-                axios.get(`/api/libra/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`).then(
-                    res => {
-                        console.log(res)
+                const { data: res } = await axios.get(`/api/libra/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                )
-            })
+                })
+                users = res.data.users
+                console.log('users')
+                console.log(users)
+            }
+
+            getUsers()
+            console.log('setup')
+
+            return {
+                users
+            }
         }
     }
 </script>
 
 <style scoped>
-
+    #table {
+        width: 100%;
+        height: auto;
+    }
 </style>
