@@ -1,6 +1,5 @@
 <template>
     <div id="table">
-        {{ 'users:'+ users }}
         <el-table :data="users" stripe style="width: 100%">
             <el-table-column prop="user_id" label="user_id">
             </el-table-column>
@@ -30,7 +29,7 @@
             const timestamp = Date.parse(new Date()).toString().slice(0, 10)
             const nonce = nanoid().slice(0, 4)
             let users = ref([])
-            const getUsers = async () => {
+            onBeforeMount(async () => {
                 const token = window.sessionStorage.getItem('token')
                 const plainObj = {
                     "pageSize": 10,
@@ -44,13 +43,8 @@
                         Authorization: `Bearer ${token}`
                     }
                 })
-                users = res.data.users
-                console.log('users')
-                console.log(users)
-            }
-
-            getUsers()
-            console.log('setup')
+                users.value = res.data.users
+            })
 
             return {
                 users
@@ -61,7 +55,8 @@
 
 <style scoped>
     #table {
-        width: 100%;
+        width: 900px;
         height: auto;
+        margin: 0 auto;
     }
 </style>
