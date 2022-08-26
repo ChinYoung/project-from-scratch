@@ -8,7 +8,8 @@ const handleObj = (obj) => {
             if (Array.isArray(value))
                 return `${key}=${handleArray(value)}`
             return `${key}=${value}`
-        }).join('&')
+        }).sort()
+        .join('&')
     return `{${str}}`
 }
 
