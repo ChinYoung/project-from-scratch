@@ -12,6 +12,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",
     "axios": "^0.27.2",
+    "core-js": "^3.25.0",
     "element-plus": "^2.2.12",
     "js-md5": "^0.7.3",
     "mitt": "^3.0.0",
