@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "serve": "vite",
+    "dev": "vite --mode development",
     "build": "vite build",
+    "prod": "vite --mode production",
     "preview": "vite preview",
     "test": "jest --config ./jest.config.mjs ./test"
   },

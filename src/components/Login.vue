@@ -19,9 +19,9 @@
 <script>
     import { ref, getCurrentInstance } from 'vue'
     import { useRouter } from 'vue-router'
-    import axios from 'axios'
     import { nanoid } from 'nanoid'
     import { getSign } from '../utils/getSign.js'
+    import { getToken } from '../api'
     export default {
         props: {
 
@@ -34,7 +34,7 @@
             })
             const currentInstance = getCurrentInstance()
 
-            const login = async () => {
+            const login = () => {
                 const { username, password } = loginForm.value
                 if (username === 'libra' && password === 'xxxxx') {
                     const timestamp = Date.parse(new Date()).toString().slice(0, 10)
@@ -45,18 +45,13 @@
                         "timestamp": timestamp,
                         "nonce": nonce
                     }
-
                     const sig = getSign(plainObj)
-
-                    const { data: res } = await axios.post('/api/libra/account', {
-                        "account": username,
-                        "password": password,
-                        "timestamp": timestamp,
-                        "nonce": nonce,
-                        "sig": sig
+                    plainObj["sig"] = sig
+                    getToken(plainObj).then((res) => {
+                        const token = res.data.token
+                        window.sessionStorage.setItem('token', token)
+                        router.push('/home')
                     })
-                    window.sessionStorage.setItem('token', res.data.token)
-                    router.push('/home')
                 } else {
                     currentInstance.appContext.config.globalProperties.$message.error('请输入正确的用户名和密码！')
                 }

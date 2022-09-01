@@ -24,6 +24,7 @@
     import { getSign } from '../utils/getSign.js'
     import { nanoid } from 'nanoid'
     import axios from 'axios'
+    import { getusers } from '../api'
     export default {
         setup() {
             const timestamp = Date.parse(new Date()).toString().slice(0, 10)
@@ -38,12 +39,9 @@
                     "nonce": nonce
                 }
                 const sig = encodeURIComponent(getSign(plainObj))
-                const { data: res } = await axios.get(`/api/libra/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                getusers(timestamp, nonce, sig, token).then((res) => {
+                    users.value = res
                 })
-                users.value = res.data.users
             })
 
             return {
