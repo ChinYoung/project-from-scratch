@@ -1,17 +1,11 @@
 import axios from 'axios'
-const env = import.meta.env.MODE
+const url = import.meta.env.VITE_URL
 const getToken = async (user) => {
-    let url = ''
-    if (env === 'development') url = '/api/libra/account'
-    if (env === 'production') url = '/libra/account'
-    const { data: res } = await axios.post(url, user)
+    const { data: res } = await axios.post(`${url}/account`, user)
     return res
 }
 const getusers = async (timestamp, nonce, sig, token) => {
-    let url = ''
-    if (env === 'development') url = `/api/libra/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`
-    if (env === 'production') url = `/libra/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`
-    const { data: res } = await axios.get(url, {
+    const { data: res } = await axios.get(`${url}/user?pageSize=10&pageNumber=0&timestamp=${timestamp}&nonce=${nonce}&sig=${sig}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
