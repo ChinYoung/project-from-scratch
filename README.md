@@ -43,4 +43,4 @@
 - commit msg
 - another
 - and more
-- more
+- change
